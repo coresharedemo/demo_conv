@@ -25,8 +25,8 @@ mail = Mail(app) # Inicializa Flask-Mail
 s = URLSafeTimedSerializer(app.config['SECRET_KEY']) # Serializer para tokens
 
 # --- Creación de tablas y admin inicial (si no existe) ---
-@app.before_first_request
-def create_tables_and_admin():
+#@app.before_first_request
+def create_admin_user_if_not_exists():
     # Esto es simple, para producción real usarías `flask db upgrade`
     # db.create_all() # Asegúrate de correr `flask db init` y `flask db migrate` primero localmente
 
@@ -340,6 +340,12 @@ def manage_convocatorias():
 # flask db init          (Solo la primera vez)
 # flask db migrate -m "Mensaje descriptivo del cambio" (Cada vez que cambies models.py)
 # flask db upgrade       (Para aplicar los cambios a la DB)
+
+# --- Ejecutar la creación del Admin (después de definir app y db) ---
+# Usamos app.app_context() para asegurar que tenemos acceso a la db, etc.
+# Esto se ejecutará cuando Gunicorn importe el módulo app.py
+with app.app_context():
+    create_admin_user_if_not_exists()
 
 # --- Ejecución ---
 if __name__ == '__main__':
