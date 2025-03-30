@@ -1,4 +1,5 @@
 import os
+from urllib.parse import urlsplit # <--- Añade esta línea
 from flask import Flask, render_template, redirect, url_for, flash, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -104,7 +105,7 @@ def login():
 
         # Redirigir a la página que intentaba acceder o al dashboard
         next_page = request.args.get('next')
-        if not next_page or url_parse(next_page).netloc != '':
+        if not next_page or urlsplit(next_page).netloc != '':
             if user.is_admin:
                 next_page = url_for('admin_dashboard')
             else:
