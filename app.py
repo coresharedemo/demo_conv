@@ -6,7 +6,7 @@ from flask_migrate import Migrate
 from flask_login import LoginManager, current_user, login_user, logout_user, login_required
 from flask_mail import Mail, Message # Para correos
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired # Para tokens seguros
-from werkzeug.urls import url_parse
+#from werkzeug.urls import url_parse
 
 from config import Config
 from models import db, User, Convocatoria # Importa tus modelos
